@@ -1,4 +1,4 @@
-# go-project-example
+# topic and post demo
 
 字节青训营go语言基础实践demo。
 
