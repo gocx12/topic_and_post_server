@@ -1,11 +1,12 @@
 package main
 
 import (
+	"os"
+
 	"github.com/Moonlight-Zhao/go-project-example/handler"
 	"github.com/Moonlight-Zhao/go-project-example/repository"
 	"github.com/Moonlight-Zhao/go-project-example/util"
 	"gopkg.in/gin-gonic/gin.v1"
-	"os"
 )
 
 func main() {
@@ -22,6 +23,15 @@ func main() {
 		})
 	})
 
+	r.POST("/community/topic/do", func(c *gin.Context) {
+		uid, _ := c.GetPostForm("uid")
+		title, _ := c.GetPostForm("title")
+		content, _ := c.GetPostForm("content")
+		data := handler.PublishTopic(uid, title, content)
+		c.JSON(200, data)
+	})
+
+	// 这个url似乎不是RESTful？
 	r.GET("/community/page/get/:id", func(c *gin.Context) {
 		topicId := c.Param("id")
 		data := handler.QueryPageInfo(topicId)
@@ -35,6 +45,7 @@ func main() {
 		data := handler.PublishPost(uid, topicId, content)
 		c.JSON(200, data)
 	})
+
 	err := r.Run()
 	if err != nil {
 		return

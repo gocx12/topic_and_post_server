@@ -1,9 +1,10 @@
 package repository
 
 import (
-	"github.com/Moonlight-Zhao/go-project-example/util"
 	"sync"
 	"time"
+
+	"github.com/Moonlight-Zhao/go-project-example/util"
 )
 
 type Topic struct {
@@ -40,4 +41,12 @@ func (*TopicDao) QueryTopicById(id int64) (*Topic, error) {
 		return nil, err
 	}
 	return &topic, nil
+}
+
+func (*TopicDao) CreateTopic(topic *Topic) error {
+	if err := db.Create(topic).Error; err != nil {
+		util.Logger.Error("insert topic err:" + err.Error())
+		return err
+	}
+	return nil
 }

@@ -3,8 +3,9 @@ package service
 import (
 	"errors"
 	"fmt"
-	"github.com/Moonlight-Zhao/go-project-example/repository"
 	"sync"
+
+	"github.com/Moonlight-Zhao/go-project-example/repository"
 )
 
 type TopicInfo struct {
@@ -26,6 +27,9 @@ func QueryPageInfo(topicId int64) (*PageInfo, error) {
 	return NewQueryPageInfoFlow(topicId).Do()
 }
 
+// 函数名中的"flow"通常表示流程、流转或者流动的意思。
+// 在名为"NewQueryPageInfoFlow"的函数中，
+// "flow"可能表示该函数用于管理和控制查询页面信息的整个流程。它可能涉及多个步骤、操作或数据流的流动，以完成特定的任务。
 func NewQueryPageInfoFlow(topId int64) *QueryPageInfoFlow {
 	return &QueryPageInfoFlow{
 		topicId: topId,
@@ -38,7 +42,7 @@ type QueryPageInfoFlow struct {
 
 	topic   *repository.Topic
 	posts   []*repository.Post
-	userMap map[int64]*repository.User
+	userMap map[int64]*repository.User //
 }
 
 func (f *QueryPageInfoFlow) Do() (*PageInfo, error) {
@@ -93,7 +97,7 @@ func (f *QueryPageInfoFlow) prepareInfo() error {
 		return postErr
 	}
 	//获取用户信息
-	uids := []int64{f.topic.Id}
+	uids := []int64{f.topic.UserId}
 	for _, post := range f.posts {
 		uids = append(uids, post.Id)
 	}
